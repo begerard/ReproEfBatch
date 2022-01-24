@@ -24,8 +24,6 @@ using (var context = new Context())
 
     Debug.Assert(context.Entities.Count() == 1);
     Console.WriteLine("ReproEfBatch entities deleted");
-
-    Console.ReadKey();
 }
 
 class Entity
