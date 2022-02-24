@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NodaTime;
 using System.Diagnostics;
 
 Console.WriteLine("ReproEfBatch started");
@@ -29,6 +30,10 @@ using (var context = new Context())
 class Entity
 {
     public int Id { get; set; }
+
+    public TimeSpan TimeSpanProp { get; set; }
+    public Duration DurationProp { get; set; }
+    public TimeOnly TimeOnlyProp { get; set; }
 }
 
 class Context : DbContext
@@ -39,7 +44,8 @@ class Context : DbContext
     {
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.LogTo(Console.WriteLine);
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=ReproEfBatch;Username=postgres;Password=admin");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=ReproEfBatch;Username=postgres;Password=admin",
+            npgsqlOptions => npgsqlOptions.UseNodaTime());
         optionsBuilder.UseBatchEF_Npgsql();
     }
 
